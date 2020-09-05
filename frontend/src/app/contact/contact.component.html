@@ -1,0 +1,53 @@
+<div class="container">
+   
+	<div class="row"> 
+    <h4 class="float-left ml-4 mb-3">Contact us</h4>
+      <div class="col-md-12">
+        <div class="well well-sm">
+          <form class="form-horizontal"  [formGroup]="messageForm" (ngSubmit)="onSubmit()">
+            <fieldset>
+              <!-- Name input-->
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="name">Name</label>
+                <div class="col-md-9">
+                  <input formControlName="name" type="text" placeholder="Your name" class="form-control">
+                  <div *ngIf="submitted && messageForm.controls.name.errors" class="error">
+                    <div *ngIf="messageForm.controls.name.errors.required">Name is required</div>
+                  </div>
+                </div>
+              </div>
+      
+              <!-- Email input-->
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="email">E-mail</label>
+                <div class="col-md-9">
+                  <input formControlName="email" type="email" placeholder="Your email" class="form-control">
+                  <div *ngIf="submitted && messageForm.controls.email.errors" class="error">
+                    <div *ngIf="messageForm.controls.email.errors.required">Email is required</div>
+                  </div>
+                </div>
+              </div>
+      
+              <!-- Message body -->
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="message">Message</label>
+                <div class="col-md-9">
+                  <textarea class="form-control" formControlName="message"  placeholder="Please enter your message here..." rows="5"></textarea>
+                  <div *ngIf="submitted && messageForm.controls.message.errors" class="error">
+                    <div *ngIf="messageForm.controls.message.errors.required">Message is required</div>
+                  </div>
+                </div>
+              </div>
+      
+              <!-- Form actions -->
+              <div class="form-group">
+                <div class="col-md-12">
+                  <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+	</div>
+</div>

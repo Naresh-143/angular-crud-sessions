@@ -1,0 +1,153 @@
+<div class="container">
+    <div class="row">
+        <h1>Students List</h1>
+    </div>
+    <div class="row">
+        <div class="float-right">
+            <button class="btn btn-success mb-2" (click)="addNew()">Add New</button>
+            <span [ngClass]="{'error text-center': !success,'success text-center': success}">{{deletemessage}}</span>
+        </div>
+        
+        <div class="table-responsive">
+            <form>
+                <div class="form-group">
+                  <div class="input-group">
+                    
+                    <input type="text" class="form-control" name="searchText" [(ngModel)]="searchText"/>
+                    <div class="input-group-addon">
+                        <i id="filtersubmit" class="fa fa-search fa-lg"></i>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            <table class="table table-bordered table-hover">
+                <thead className="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Avathar</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let student of students | tableFilter:searchText:'search'; let i=index">
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ student.first_name }}</td>
+                        <td>{{ student.last_name }}</td>
+                        <td>{{ student.email }}</td>
+                        <td><img src="{{ student.avathar }}" width="50px" height="50px"></td>
+                        <td>
+                            <button (click)="deleteStudent(student.sid)" class="btn btn-danger">Delete</button> &nbsp;
+                            <button (click)="selectStudent(student)" class="btn btn-success">Update</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" class="text-center" *ngIf="isLoadMore">
+                            <button (click)="loadMore(student)" class="btn btn-success">Load More</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+  
+    <!-- <h4>Create or Update Student</h4>
+    <form #f = "ngForm">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>First Name</label>
+                <input type="text" name="first_name" [(ngModel)] = "selectedStudent.first_name" class="form-control">
+            </div>
+            <div class="form-group col-md-6">
+                <label>Last Name</label>
+                <input type="text" name="last_name" [(ngModel)] = "selectedStudent.last_name" class="form-control">
+            </div>
+            
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Email</label>
+                <input type="text" name="email" [(ngModel)] = "selectedStudent.email" class="form-control">
+            </div>
+            <div class="form-group col-md-6" *ngIf="showPassword">
+                <label>Password</label>
+                <input type="password" name="password" [(ngModel)] = "selectedStudent.password" class="form-control">
+            </div>
+            
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Avathar</label>
+                <input #file type="file" accept='image/*' (change)="preview(file.files)" class="form-control-file"/>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Avthar Preview</label>
+                <img [src]="imgURL" height="50px" width="50px" *ngIf="imgURL">
+            </div>
+        </div>
+        <div class="text-center">
+            <button (click)="createOrUpdateStudent(f)" class="btn btn-success" *ngIf="showAdd"> Create New</button> &nbsp;
+            <button (click)="createOrUpdateStudent(f)" class="btn btn-success" *ngIf="showEdit"> Update </button>
+        </div>
+    </form> -->
+    <div class="modal" id="myModal" [style.display] = "showModal ? 'block' : 'none'">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">{{ headdingText }} student</div>
+                    <button class="close" type="button" data-dismis="modal" (click)='hideModal()'>&times;</button>
+                </div>
+                <form #f = "ngForm">
+                    <div class="modal-body">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>First Name</label>
+                                <input type="text" name="first_name" [(ngModel)] = "selectedStudent.first_name" class="form-control">
+                                <span class="error" *ngIf="errors.first_name">{{ errors.first_name }}</span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Last Name</label>
+                                <input type="text" name="last_name" [(ngModel)] = "selectedStudent.last_name" class="form-control">
+                                <span class="error" *ngIf="errors.last_name">{{ errors.last_name }}</span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Email</label>
+                                <input type="text" name="email" [(ngModel)] = "selectedStudent.email" class="form-control">
+                                <span class="error" *ngIf="errors.email">{{ errors.email }}</span>
+                            </div>
+                            <div class="form-group col-md-6" *ngIf="showPassword">
+                                <label>Password</label>
+                                <input type="password" name="password" [(ngModel)] = "selectedStudent.password" class="form-control">
+                                <span class="error" *ngIf="errors.password">{{ errors.password }}</span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Avathar</label>
+                                <input #file type="file" accept='image/*' (change)="preview(file.files)" class="form-control-file"/>
+                                <span class="error" *ngIf="errors.avathar">{{ errors.avathar }}</span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Avthar Preview</label>
+                                <img [src]="imgURL" height="50px" width="50px" *ngIf="imgURL">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group col-md-12 text-center">
+                            <span [ngClass]="{'error': !success,'success': success}">{{message}}</span>
+                        </div>
+                        <div class="form-group col-md-12 text-center">
+                            <button (click)="createOrUpdateStudent(f)" class="btn btn-success" > {{ headdingText }} </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+  </div>
+

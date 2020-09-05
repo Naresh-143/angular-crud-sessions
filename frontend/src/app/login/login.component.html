@@ -1,0 +1,41 @@
+<div class="container">
+	<div class="row"> 
+    <h4 class="float-left ml-4 mb-3">Login</h4>
+      <div class="col-md-12">
+        <div class="well well-sm">
+          <form class="form-horizontal"  [formGroup]="loginForm" (ngSubmit)="login()">
+            <fieldset>
+              <!-- Name input-->
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="name">Usernme</label>
+                <div class="col-md-9">
+                  <input formControlName="username" type="text" placeholder="Email" class="form-control">
+                  <div *ngIf="submitted && loginForm.controls.username.errors" class="error">
+                    <div *ngIf="loginForm.controls.username.errors.required">Usernme is required</div>
+                  </div>
+                </div>
+              </div>
+      
+              <!-- Pssword input-->
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="password">Password</label>
+                <div class="col-md-9">
+                  <input formControlName="password" type="password" placeholder="Your Password" class="form-control">
+                  <div *ngIf="submitted && loginForm.controls.password.errors" class="error">
+                    <div *ngIf="loginForm.controls.password.errors.required">Password is required</div>
+                  </div>
+                </div>
+              </div>
+              <!-- Form actions -->
+              <div class="form-group">
+                <div class="col-md-12">
+                    <p *ngIf="message" class="text-left error">{{message}}</p>    
+                    <button type="submit" class="btn btn-primary btn-lg">Login</button>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+	</div>
+</div>
